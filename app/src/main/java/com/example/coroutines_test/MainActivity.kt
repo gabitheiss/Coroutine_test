@@ -17,21 +17,38 @@ class MainActivity : AppCompatActivity() {
 
 
         CoroutineScope(Dispatchers.Main).launch {
-            val retorno = callServer()
+            val retorno = callNames()
             retorno.forEach {
-                binding.textView.text = it
+                binding.idNomes.text = it
                 delay(2000)
             }
         }
+        CoroutineScope(Dispatchers.Main).launch {
+            val retornoAnimals = callAnimals()
+            retornoAnimals.forEach{
+                binding.idAnimais.text = it
+                delay(2000)
+            }
+        }
+
     }
 
-    suspend fun callServer(): List<String> {
+
+    suspend fun callNames(): List<String> {
         println("...antes de disparar a coroutine...")
         val listOfNames = withContext(Dispatchers.Main) {
             delay(3000)
-            listOf("Arthur", "Botão", "Jaime", "Leonardo")
+            listOf("Arthur", "Botão", "Jaime", "Leonardo","Gabriela","Tatiane","Felipe")
         }
         println("...após disparar a coroutine e ter esperado 3 segundos...")
         return listOfNames
+    }
+
+    suspend fun callAnimals(): List<String>{
+        val listOfAnimals = withContext(Dispatchers.Main){
+            delay(3000)
+            listOf("Cavalo","Vaca","Cachorro","Gato","Pássaro","Boi","Jacaré")
+        }
+        return listOfAnimals
     }
 }
